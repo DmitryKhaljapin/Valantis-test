@@ -1,0 +1,38 @@
+.card {
+    background: #FFF;
+    padding: 24px 16px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 2px 0px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.info-list {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 15px;
+    font-size: 1.5rem;
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: 600;
+    grid-column: 1 / 3;
+    grid-row: 1 / 2;
+    color: #7B3524;
+}
+
+.price {
+    font-size: 2rem;
+    font-weight: 600;
+    grid-column: 3 / 4;
+    grid-row: 1 / 2
+}
+
+.prop-name {
+    margin-left: 10px;
+    grid-column: 1 / 2;
+}
+
+.prop-value {
+    grid-column: 2 / 4
+}
