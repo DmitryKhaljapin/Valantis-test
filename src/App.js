@@ -3,7 +3,7 @@ import { Products } from './components/Products/Products';
 
 export const App = () => {
     return (
-        <div class='wrapper'>
+        <div className='wrapper'>
             <Products />
         </div>
     )

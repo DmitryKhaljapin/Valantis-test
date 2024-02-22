@@ -51,6 +51,22 @@ th{font-weight: normal;}
 
 body {
 	font-family: 'Cormorant Garamond';
+	overflow-y: auto;
+}
+
+body::-webkit-scrollbar {
+	width: 5px;
+	margin-top: -8px;
+}
+  
+body::-webkit-scrollbar-track {
+	border-radius: 100px;
+	background-color: #F5F0E5;
+}
+  
+body::-webkit-scrollbar-thumb {
+	border-radius: 100px;
+	background-color: #7B3524;
 }
 
 .wrapper {
