@@ -1,33 +1,52 @@
 import axios from 'axios';
 import md5 from 'md5';
 
-export async function getProducts() {
-    const date = new Date();
-    const authDate = `${date.getUTCFullYear()}${new Intl.DateTimeFormat('en-US', {month: '2-digit'}).format(date)}${date.getUTCDate()}`
-    const password = 'Valantis'
-    const authPassword = md5(`${password}_${authDate}`);
+const url = 'http://api.valantis.store:40000/';
+const date = new Date();
+const authDate = `${date.getUTCFullYear()}${new Intl.DateTimeFormat('en-US', {month: '2-digit'}).format(date)}${date.getUTCDate()}`
+const password = 'Valantis'
+const authPassword = md5(`${password}_${authDate}`);
+const headers = {
+    headers: {
+        'X-Auth': authPassword
+    }
+}
 
-
-    const url = 'http://api.valantis.store:40000/';
-    const body = {
+async function getProductIds(offset) {
+    return axios.post(url, {
         action: 'get_ids',
-	    params: {offset: 0, limit: 51}
+        params: {offset: offset, limit: 50}
+    }, headers)
+    .then((response) => {return response.data})
+    .catch(e => {
+        console.log(e.message);
+        return getProducts(offset)
+    });
+}
 
-    }
-    const headers = {
-        headers: {
-            'X-Auth': authPassword
-        }
-    }
-
-    const { data: productIds } = await axios.post(url, body, headers);
-
-    const { data: products } = await axios.post(url, {
+async function getProductsList(productIds) {
+    return axios.post(url, {
         action: 'get_items',
         params: {ids: productIds.result}
-    }, headers);
+    }, headers)
+    .then((response) => {return response.data})
+    .catch(e => {
+        console.log(e.message);
+        return getProductsList(productIds)
+    });
+}
 
-    const uniqProductsList = [...new Map(products.result.map(product => [product.id, product])).values()];
+export async function getProducts(offset) {
 
-    console.log(uniqProductsList);
+    const productIds = await getProductIds(offset)
+    
+    const productsList = await getProductsList(productIds);
+
+    const uniqProductsList = productsList.result.reduce((list, product) => {
+        if (list.some(item => item.id === product.id)) return list;
+        list.push(product);
+        return list;
+    }, []);
+
+    return uniqProductsList;
 }
