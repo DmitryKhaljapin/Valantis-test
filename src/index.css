@@ -41,3 +41,8 @@ a {color: inherit;}
 address{font-size:inherit;font-weight:400;text-decoration:none;font-style:normal;}
 
 th{font-weight: normal;}
+
+.wrapper {
+	display: flex;
+	min-height: 100vh;
+}
