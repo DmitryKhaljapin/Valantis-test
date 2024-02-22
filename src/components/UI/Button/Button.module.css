@@ -1,0 +1,35 @@
+.button {
+    padding: 10px 20px;
+    background: #7B3524;
+    height: 40px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 2px 0px;
+    border-radius: 8px;
+    font-size: 2rem;
+}
+
+.button::after, button::before {
+    content: '';
+    display: block;
+    height: 1px;
+    width: 15px;
+    background: #FFF;
+    transform: rotate(45deg);
+    transform-origin: 0% 50%;
+}
+
+.button::before {
+    transform: rotate(-45deg);
+    transform-origin: 0% 50%;
+}
+
+.button:last-child {
+    transform: rotate(180deg);
+}
+
+.button:hover {
+    background: #57261a;
+}
+
+.disabled {
+    background: #e5e5e5;
+}

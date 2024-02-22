@@ -16,7 +16,6 @@ export const Product = ({id, price, brand, product: title}) => {
 
                 <dt className={styles['prop-name']}>Бренд:</dt>
                 <dd className={styles['prop-value']}>{brand}</dd>
-
             </dl>
         </div>
     );
