@@ -29,7 +29,7 @@ async function getProductIds(pageNumber) {
     })
     .catch(e => {
         console.log(e.message);
-        return getProducts(pageNumber);
+        return getProductIds(pageNumber);
     });
 }
 
@@ -38,7 +38,7 @@ async function getProductsList(productIds) {
         action: 'get_items',
         params: {ids: productIds}
     }, headers)
-    .then((response) => {return response.data})
+    .then((response) => response.data)
     .catch(e => {
         console.log(e.message);
         return getProductsList(productIds)
@@ -47,9 +47,11 @@ async function getProductsList(productIds) {
 
 export async function getProducts(pageNumber) {
 
-    const {productIds, isLastPage} = await getProductIds(pageNumber)
+    const {productIds, isLastPage} = await getProductIds(pageNumber);
     
     const productsList = await getProductsList(productIds);
+
+    if (!productsList) return;
 
     const uniqProductsList = productsList.result.reduce((list, product) => {
         if (list.some(item => item.id === product.id)) return list;
