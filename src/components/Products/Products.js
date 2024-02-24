@@ -29,9 +29,9 @@ export const Products = () => {
         <div className={styles['products-container']}>
             {productsList && <>
                 <ul>
-                    {productsList.map(productItem => <li key={productItem.id}><Product  id={productItem.id} brand={productItem.brand} product={productItem.product} price={productItem.price} /></li>)}
+                    {productsList.uniqProductsList.map(productItem => <li key={productItem.id}><Product  id={productItem.id} brand={productItem.brand} product={productItem.product} price={productItem.price} /></li>)}
                 </ul>
-                <ControlBar showNextPage={showNextPage} showPreviousPage={showPreviousPage}  pageNumber={pageNumber} />
+                <ControlBar showNextPage={showNextPage} showPreviousPage={showPreviousPage} pageNumber={pageNumber} isLastPage={productsList.isLastPage} />
             </>}
         </div>
     )

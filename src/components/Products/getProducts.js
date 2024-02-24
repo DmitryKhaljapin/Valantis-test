@@ -15,9 +15,16 @@ const headers = {
 async function getProductIds(offset) {
     return axios.post(url, {
         action: 'get_ids',
-        params: {offset: offset, limit: 50}
+        params: {offset: offset, limit: 51} //getting 51 products to сheck whether it's the last page or not;
     }, headers)
-    .then((response) => {return response.data})
+    .then((response) => {
+        const productIds = response.data.result;
+        const isLastPage = productIds < 51;
+        return {
+            productIds,
+            isLastPage
+        }
+    })
     .catch(e => {
         console.log(e.message);
         return getProducts(offset)
@@ -27,7 +34,7 @@ async function getProductIds(offset) {
 async function getProductsList(productIds) {
     return axios.post(url, {
         action: 'get_items',
-        params: {ids: productIds.result}
+        params: {ids: productIds}
     }, headers)
     .then((response) => {return response.data})
     .catch(e => {
@@ -38,7 +45,7 @@ async function getProductsList(productIds) {
 
 export async function getProducts(offset) {
 
-    const productIds = await getProductIds(offset)
+    const {productIds, isLastPage} = await getProductIds(offset)
     
     const productsList = await getProductsList(productIds);
 
@@ -48,5 +55,8 @@ export async function getProducts(offset) {
         return list;
     }, []);
 
-    return uniqProductsList;
+    return {
+        uniqProductsList,
+        isLastPage
+    };
 }

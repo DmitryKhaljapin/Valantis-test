@@ -2,12 +2,12 @@ import React from 'react';
 import { Button } from '../Button/Button'
 import styles from './ControlBar.module.css';
 
-export const ControlBar = ({pageNumber, showNextPage, showPreviousPage}) => {
+export const ControlBar = ({pageNumber, isLastPage, showNextPage, showPreviousPage}) => {
    return(
         <div className={styles['control-bar']}>
-            <Button isDisabled={true} onClick={showPreviousPage} />
+            <Button isDisabled={pageNumber === 1? true : false} onClick={showPreviousPage} />
             <p className={styles['page-number']}>{pageNumber}</p>
-            <Button onClick={showNextPage} />
+            <Button isDisabled={isLastPage} onClick={showNextPage} />
         </div>
    );
 }
