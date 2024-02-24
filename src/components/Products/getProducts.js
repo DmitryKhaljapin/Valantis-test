@@ -1,76 +1,24 @@
-import axios from 'axios';
-import md5 from 'md5';
-
-const url = 'http://api.valantis.store:40000/';
-const date = new Date();
-const authDate = `${date.getUTCFullYear()}${new Intl.DateTimeFormat('en-US', {month: '2-digit'}).format(date)}${date.getUTCDate()}`
-const password = 'Valantis'
-const authPassword = md5(`${password}_${authDate}`);
-const headers = {
-    headers: {
-        'X-Auth': authPassword
-    }
-}
+import { requireToServer } from '../../helpers/requireToServer';
 
 let correctionOffset = 0; // in case of products count less then 50 after uqicialize
 let correctionLimit = 0; // in case of products count less then 50 after uqicialize
 
 async function getProductIds(pageNumber) {
-    let offset = (pageNumber - 1) * 50 + correctionOffset; 
-
-    return axios.post(url, {
-        action: 'get_ids',
-        params: {offset, limit: 51 + correctionLimit} //getting 51 products to сheck whether it's the last page or not;
-    }, headers)
-    .then((response) => {
-        const productIds = response.data.result.slice(0, 50 + correctionLimit);
-        const isLastPage = response.data.result.length < 51;
-        return {
-            productIds,
-            isLastPage
-        }
-    })
-    .catch(e => {
-        if (e.message) console.log(e.message);
-        return getProductIds(pageNumber);
-    });
+    let offset = (pageNumber - 1) * 50 + correctionOffset;
+    
+    const response = await requireToServer('get_ids', {offset, limit: 51 + correctionLimit});
+    const productIds = response.result.slice(0, 50 + correctionLimit);
+    const isLastPage = response.result.length < 51;
+    return {
+        productIds,
+        isLastPage
+    }
 }
 
 async function getProductsList(productIds) {
-    return axios.post(url, {
-        action: 'get_items',
-        params: {ids: productIds}
-    }, headers)
-    .then((response) => response.data)
-    .catch(e => {
-        if (e.message) console.log(e.message);
-        return getProductsList(productIds)
-    });
+    return await requireToServer('get_items', {ids: productIds});
 }
 
-async function getFields(params) {
-
-    const request = params ? {action: 'get_fields', params} : {action: 'get_fields'};
-
-    return axios.post(url, request, headers)
-    .then((response) => response.data)
-    .catch(e => {
-        if (e.message) console.log(e.message);
-        return getFields()
-    });
-}
-
-async function getFilteredProductsList(filterParameter) {
-    return axios.post(url, {
-        action: 'filter',
-        params: filterParameter,
-    }, headers)
-    .then((response) => response.data)
-    .catch(e => {
-        if (e.message) console.log(e.message);
-        return getFilteredProductsList(filterParameter)
-    });
-}
 
 export async function getProducts(pageNumber) {
     const {productIds, isLastPage} = await getProductIds(pageNumber);
@@ -96,12 +44,3 @@ export async function getProducts(pageNumber) {
         };
     }
 }
-
-export async function getFilteredProducts() {
-    // const productIds = await getFilteredProductsList({"product": 'Золотое кольцо'});
-    // const productsList = await getProductsList(productIds.result)
-    const fields = await getFields({field: 'brand'});
-
-}
-
-getFilteredProducts();
