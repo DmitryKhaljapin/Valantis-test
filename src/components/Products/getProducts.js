@@ -48,12 +48,36 @@ async function getProductsList(productIds) {
     });
 }
 
+async function getFields(params) {
+
+    const request = params ? {action: 'get_fields', params} : {action: 'get_fields'};
+
+    return axios.post(url, request, headers)
+    .then((response) => response.data)
+    .catch(e => {
+        if (e.message) console.log(e.message);
+        return getFields()
+    });
+}
+
+async function getFilteredProductsList(filterParameter) {
+    return axios.post(url, {
+        action: 'filter',
+        params: filterParameter,
+    }, headers)
+    .then((response) => response.data)
+    .catch(e => {
+        if (e.message) console.log(e.message);
+        return getFilteredProductsList(filterParameter)
+    });
+}
+
 export async function getProducts(pageNumber) {
     const {productIds, isLastPage} = await getProductIds(pageNumber);
     
     const productsList = await getProductsList(productIds);
 
-    const uniqProductsList = productsList.result.reduce((list, product) => {
+    const uniqProductsList = productsList.result.reduce((list, product) => { // reducing duplicats products
         if (list.some(item => item.id === product.id)) return list;
         list.push(product);
         return list;
@@ -72,3 +96,12 @@ export async function getProducts(pageNumber) {
         };
     }
 }
+
+export async function getFilteredProducts() {
+    // const productIds = await getFilteredProductsList({"product": 'Золотое кольцо'});
+    // const productsList = await getProductsList(productIds.result)
+    const fields = await getFields({field: 'brand'});
+
+}
+
+getFilteredProducts();

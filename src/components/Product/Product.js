@@ -1,9 +1,10 @@
 import React from 'react';
+import { Card } from '../UI/Card/Card';
 import styles from './Product.module.css';
 
 export const Product = ({id, price, brand, product: title}) => {
     return (
-        <div className={styles.card}>
+        <Card>
             <dl className={styles['info-list']}>
                 <dt></dt>
                 <dd className={styles.title}>{title}</dd>
@@ -17,6 +18,6 @@ export const Product = ({id, price, brand, product: title}) => {
                 <dt className={styles['prop-name']}>Бренд:</dt>
                 <dd className={styles['prop-value']}>{brand}</dd>
             </dl>
-        </div>
+        </Card>
     );
 }
