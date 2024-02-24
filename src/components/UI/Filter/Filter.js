@@ -6,7 +6,6 @@ import styles from './Filter.module.css';
 import cn from 'classnames';
 
 export const Filter = ({className}) => {
-
     const [filters, setFilters] = useState(null)
 
     useEffect(() => {
@@ -15,11 +14,11 @@ export const Filter = ({className}) => {
         }
         getData();
     }, []);
-        console.log(filters);
+
     return (
         <Card className={cn(className, styles.card)}>
            {filters && <dl>
-                {Object.entries(filters).map(([field, values]) => {
+                {Object.entries(filters).map(([field, values]) =>  {
                     return (
                         <div key={field}>
                             <dt>{field}</dt>

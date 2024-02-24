@@ -24,8 +24,13 @@ async function getFilteringFields() {
     return requireToServer('get_fields');
 }
 
-async function getFilteringValues(field) {
-    return requireToServer('get_fields', {field}); 
+async function* getFilteringValues(fields) {
+    for (const field of fields) {
+        const values = await requireToServer('get_fields', {field});
+        const uniqValues = values.result.filter((value, index, values) => values.indexOf(value) === index);
+
+        yield [field, uniqValues];
+    }
 }
 
 export async function getFilters() {
@@ -33,11 +38,10 @@ export async function getFilters() {
 
     const filteringFields = await getFilteringFields();
 
-    filteringFields.result.forEach(async field => {
-        const filteringValues = await getFilteringValues(field)
-        const uniqFilteringValuesList = filteringValues.result.filter((value, index, values) => (values.indexOf(value) === index));
-        filters[field] = uniqFilteringValuesList;
-    });
+    const filteringValues = getFilteringValues(filteringFields.result);
+    for await (const fieldAndValues of filteringValues) {
+        filters[fieldAndValues[0]] = fieldAndValues[1];
+    }
 
     return filters;
 }
