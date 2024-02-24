@@ -13,15 +13,15 @@ const headers = {
 }
 
 async function getProductIds(pageNumber) {
-    const offset = (pageNumber - 1) * 50; 
+    let offset = (pageNumber - 1) * 50; 
 
     return axios.post(url, {
         action: 'get_ids',
         params: {offset, limit: 51} //getting 51 products to сheck whether it's the last page or not;
     }, headers)
     .then((response) => {
-        const productIds = response.data.result;
-        const isLastPage = productIds.length < 51;
+        const productIds = response.data.result.slice(0, 50);
+        const isLastPage = response.data.result.length < 51;
         return {
             productIds,
             isLastPage
@@ -29,7 +29,7 @@ async function getProductIds(pageNumber) {
     })
     .catch(e => {
         console.log(e.message);
-        return getProducts(offset)
+        return getProducts(pageNumber);
     });
 }
 
