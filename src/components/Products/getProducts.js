@@ -12,15 +12,18 @@ const headers = {
     }
 }
 
+let correctionOffset = 0; // in case of products count less then 50 after uqicialize
+let correctionLimit = 0; // in case of products count less then 50 after uqicialize
+
 async function getProductIds(pageNumber) {
-    let offset = (pageNumber - 1) * 50; 
+    let offset = (pageNumber - 1) * 50 + correctionOffset; 
 
     return axios.post(url, {
         action: 'get_ids',
-        params: {offset, limit: 51} //getting 51 products to сheck whether it's the last page or not;
+        params: {offset, limit: 51 + correctionLimit} //getting 51 products to сheck whether it's the last page or not;
     }, headers)
     .then((response) => {
-        const productIds = response.data.result.slice(0, 50);
+        const productIds = response.data.result.slice(0, 50 + correctionLimit);
         const isLastPage = response.data.result.length < 51;
         return {
             productIds,
@@ -28,7 +31,7 @@ async function getProductIds(pageNumber) {
         }
     })
     .catch(e => {
-        console.log(e.message);
+        if (e.message) console.log(e.message);
         return getProductIds(pageNumber);
     });
 }
@@ -40,18 +43,15 @@ async function getProductsList(productIds) {
     }, headers)
     .then((response) => response.data)
     .catch(e => {
-        console.log(e.message);
+        if (e.message) console.log(e.message);
         return getProductsList(productIds)
     });
 }
 
 export async function getProducts(pageNumber) {
-
     const {productIds, isLastPage} = await getProductIds(pageNumber);
     
     const productsList = await getProductsList(productIds);
-
-    if (!productsList) return;
 
     const uniqProductsList = productsList.result.reduce((list, product) => {
         if (list.some(item => item.id === product.id)) return list;
@@ -59,8 +59,16 @@ export async function getProducts(pageNumber) {
         return list;
     }, []);
 
-    return {
-        uniqProductsList,
-        isLastPage
-    };
+    if (uniqProductsList.length < 50) { // correction in case of products count less then 50 after uqicialize
+        correctionLimit++;
+        return getProducts(pageNumber);
+    }
+    else {
+        correctionOffset += correctionLimit;
+        correctionLimit = 0;
+        return {
+            uniqProductsList,
+            isLastPage
+        };
+    }
 }
