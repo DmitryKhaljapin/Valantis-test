@@ -1,5 +1,12 @@
 .products-container {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 10px;
     flex-grow: 1;
     background: #f6f6f6;
     padding: 20px;
+}
+
+.control-bar {
+    grid-column: 1 / -1;
 }

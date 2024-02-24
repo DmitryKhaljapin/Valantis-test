@@ -1,9 +1,10 @@
 import React from 'react';
 import styles from './Card.module.css';
+import cn from 'classnames';
 
-export const Card = ({children}) => {
+export const Card = ({children, className}) => {
     return (
-        <div className={styles.card}>
+        <div className={cn(styles.card, className)}>
             {children}
         </div>
     );

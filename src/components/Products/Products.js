@@ -3,6 +3,7 @@ import { Product } from '../Product/Product';
 import { getProducts } from './getProducts';
 import { Loading } from '../Loading/Loading';
 import { ControlBar } from '../UI/ControlBar/ControlBar';
+import { Filter } from '../UI/Filter/Filter';
 import styles from './Products.module.css';
 
 export const Products = () => {
@@ -28,12 +29,13 @@ export const Products = () => {
 
     return (
         <div className={styles['products-container']}>
+            <Filter className={styles.filter} />
             {productsList 
             ?<>
                 <ul>
                     {productsList.uniqProductsList.map(productItem => <li key={productItem.id}><Product  id={productItem.id} brand={productItem.brand} product={productItem.product} price={productItem.price} /></li>)}
                 </ul>
-                <ControlBar showNextPage={showNextPage} showPreviousPage={showPreviousPage} pageNumber={pageNumber} isLastPage={productsList.isLastPage} />
+                <ControlBar className={styles['control-bar']} showNextPage={showNextPage} showPreviousPage={showPreviousPage} pageNumber={pageNumber} isLastPage={productsList.isLastPage} />
             </>
             :<Loading />}
         </div>

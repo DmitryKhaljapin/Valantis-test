@@ -9,6 +9,7 @@ async function getProductIds(pageNumber) {
     const response = await requireToServer('get_ids', {offset, limit: 51 + correctionLimit});
     const productIds = response.result.slice(0, 50 + correctionLimit);
     const isLastPage = response.result.length < 51;
+    
     return {
         productIds,
         isLastPage
@@ -16,7 +17,7 @@ async function getProductIds(pageNumber) {
 }
 
 async function getProductsList(productIds) {
-    return await requireToServer('get_items', {ids: productIds});
+    return requireToServer('get_items', {ids: productIds});
 }
 
 
