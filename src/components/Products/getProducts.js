@@ -12,14 +12,16 @@ const headers = {
     }
 }
 
-async function getProductIds(offset) {
+async function getProductIds(pageNumber) {
+    const offset = (pageNumber - 1) * 50; 
+
     return axios.post(url, {
         action: 'get_ids',
-        params: {offset: offset, limit: 51} //getting 51 products to сheck whether it's the last page or not;
+        params: {offset, limit: 51} //getting 51 products to сheck whether it's the last page or not;
     }, headers)
     .then((response) => {
         const productIds = response.data.result;
-        const isLastPage = productIds < 51;
+        const isLastPage = productIds.length < 51;
         return {
             productIds,
             isLastPage
@@ -43,9 +45,9 @@ async function getProductsList(productIds) {
     });
 }
 
-export async function getProducts(offset) {
+export async function getProducts(pageNumber) {
 
-    const {productIds, isLastPage} = await getProductIds(offset)
+    const {productIds, isLastPage} = await getProductIds(pageNumber)
     
     const productsList = await getProductsList(productIds);
 

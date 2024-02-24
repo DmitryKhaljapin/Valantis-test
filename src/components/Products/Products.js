@@ -7,7 +7,7 @@ import styles from './Products.module.css';
 export const Products = () => {
 
     const [productsList, setProductsList] = useState(null)
-    const [pageNumber, setPageNumber] = useState(1);
+    const [pageNumber, setPageNumber] = useState(161);
 
     function showNextPage() {
         setPageNumber(prevState => prevState + 1);
@@ -19,11 +19,10 @@ export const Products = () => {
 
     useEffect(() => {
         async function getData() {
-            setProductsList(await getProducts(0));
+            setProductsList(await getProducts(pageNumber));
         }
-        if (productsList) return ;
         getData();
-    }, []);
+    }, [pageNumber]);
 
     return (
         <div className={styles['products-container']}>
