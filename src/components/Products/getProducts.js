@@ -3,6 +3,8 @@ import { requireToServer } from '../../helpers/requireToServer';
 let correctionOffset = 0; // in case of products count less then 50 after uqicialize
 let correctionLimit = 0; // in case of products count less then 50 after uqicialize
 
+let storedFilteredProductIds = null; // storing product's IDs in case of their count more then 50 to avoid sending request to server again
+
 async function getProductIds(pageNumber) {
     let offset = (pageNumber - 1) * 50 + correctionOffset;
     
@@ -21,9 +23,32 @@ async function getFilteredProductIds(selectedFilter) {
 
     const filteredProductIds = await requireToServer('filter', params);
 
+    if (filteredProductIds.result.length > 50) {
+        storedFilteredProductIds = {filteredProductIds: filteredProductIds.result, selectedFilter};
+        return  {
+            filteredProductIds: filteredProductIds.result.slice(0, 50),
+            isLastPage: false,
+        }
+    }
+
     return {
         filteredProductIds: filteredProductIds.result,
         isLastPage: true,
+    }
+}
+
+function getFilteredProductIdsFromStore(pageNumber) {
+    const start = (pageNumber - 1) * 50;
+    const end = start + 50;
+    let isLastPage = true;
+
+    const filteredProductIds = storedFilteredProductIds.filteredProductIds.slice(start, end);
+    
+    if (storedFilteredProductIds.filteredProductIds[end + 1]) isLastPage = false;
+
+    return {
+        filteredProductIds,
+        isLastPage,
     }
 }
 
@@ -58,9 +83,15 @@ export async function getProducts(pageNumber) {
 
 export async function getFilteredProducts(selectedFilter, pageNumber) {
 
-    const {filteredProductIds, isLastPage} = await getFilteredProductIds(selectedFilter);
-    console.log(filteredProductIds);
-    
+    let filteredProductIds, isLastPage;
+
+    if (storedFilteredProductIds?.selectedFilter.field === selectedFilter.field 
+        && storedFilteredProductIds?.selectedFilter.value === selectedFilter.value) {
+            ({filteredProductIds, isLastPage} = getFilteredProductIdsFromStore(pageNumber));
+        } else {
+           ({filteredProductIds, isLastPage} = await getFilteredProductIds(selectedFilter));
+        }
+
     const productsList = await getProductsList(filteredProductIds);
 
     const uniqProductsList = productsList.result.reduce((list, product) => { // reducing duplicats products
