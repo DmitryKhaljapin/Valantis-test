@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from '../Button/Button'
 import { Card } from '../Card/Card';
 import { Select } from '../Select/Select';
+import { translate } from '../../../helpers/translate'
 
 import styles from './Filter.module.css';
 import cn from 'classnames';
@@ -20,7 +21,7 @@ export const Filter = ({className, setSelectedFilter, setPageNumber, selectedFil
                     {Object.entries(filters).map(([field, values]) =>  {
                         return (
                             <div className={styles['filter-item']} key={field}>
-                                <dt className={styles.field}>{field + ':'}</dt>
+                                <dt className={styles.field}>{translate(field) + ':'}</dt>
                                 <dd>
                                     <Select optionsContent={values} onChange={event => selectFilter(event, field)} value={field == selectedFilter?.field ? selectedFilter.value : ''}/>
                                 </dd>

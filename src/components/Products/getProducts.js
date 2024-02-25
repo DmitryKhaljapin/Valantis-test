@@ -82,7 +82,7 @@ export async function getProducts(pageNumber) {
 }
 
 export async function getFilteredProducts(selectedFilter, pageNumber) {
-
+    correctionOffset = 0;
     let filteredProductIds, isLastPage;
 
     if (storedFilteredProductIds?.selectedFilter.field === selectedFilter.field 
