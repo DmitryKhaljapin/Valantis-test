@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Product } from '../Product/Product';
-import { getProducts } from './getProducts';
+import { getProducts, getFilteredProducts } from './getProducts';
 import { Loading } from '../Loading/Loading';
 import { ControlBar } from '../UI/ControlBar/ControlBar';
-import { Filter } from '../UI/Filter/Filter';
 import styles from './Products.module.css';
 
 export const Products = ({selectedFilter}) => {
@@ -21,11 +20,12 @@ export const Products = ({selectedFilter}) => {
 
     useEffect(() => {
         async function getData() {
-            setProductsList(await getProducts(pageNumber));
+            if (selectedFilter) return setProductsList(await getFilteredProducts(selectedFilter, pageNumber))
+            return setProductsList(await getProducts(pageNumber));
         }
         setProductsList(null);
         getData();
-    }, [pageNumber]);
+    }, [pageNumber, selectedFilter]);
 
     return (
         <>

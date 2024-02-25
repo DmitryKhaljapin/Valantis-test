@@ -16,6 +16,17 @@ async function getProductIds(pageNumber) {
     }
 }
 
+async function getFilteredProductIds(selectedFilter) {
+    const params = selectedFilter.field === 'price' ? {[selectedFilter.field]: Number(selectedFilter.value + '.0')} : {[selectedFilter.field]: selectedFilter.value === 'null' ? null : selectedFilter.value};
+
+    const filteredProductIds = await requireToServer('filter', params);
+
+    return {
+        filteredProductIds: filteredProductIds.result,
+        isLastPage: true,
+    }
+}
+
 async function getProductsList(productIds) {
     return requireToServer('get_items', {ids: productIds});
 }
@@ -42,5 +53,24 @@ export async function getProducts(pageNumber) {
             uniqProductsList,
             isLastPage
         };
+    }
+}
+
+export async function getFilteredProducts(selectedFilter, pageNumber) {
+
+    const {filteredProductIds, isLastPage} = await getFilteredProductIds(selectedFilter);
+    console.log(filteredProductIds);
+    
+    const productsList = await getProductsList(filteredProductIds);
+
+    const uniqProductsList = productsList.result.reduce((list, product) => { // reducing duplicats products
+        if (list.some(item => item.id === product.id)) return list;
+        list.push(product);
+        return list;
+    }, []);
+
+    return {
+        uniqProductsList,
+        isLastPage
     }
 }

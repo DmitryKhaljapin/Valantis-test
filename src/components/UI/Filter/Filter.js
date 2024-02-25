@@ -20,7 +20,7 @@ export const Filter = ({className, selectFilter, selectedFilter, filters}) => {
                             <dt>{field}</dt>
                             <dd>
                                 <select onChange={event => onSelectHandler(event, field)} value={field == selectedFilter?.field ? selectedFilter.value : ''}>
-                                    {[<option key={0} value={null}>{''}</option>, ...sort(values).map(value => <option key={value} value={value}>{value? value: 'Отсутствует'}</option>)]}
+                                    {[<option key={0} value={null}>{''}</option>, ...sort(values).map(value => <option key={value} value={value || 'null'}>{value ? value : 'Отсутствует'}</option>)]}
                                 </select>
                             </dd>
                         </div>
