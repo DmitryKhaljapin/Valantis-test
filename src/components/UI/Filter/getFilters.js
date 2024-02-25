@@ -38,8 +38,7 @@ export async function getFilters() {
 
     const filteringFields = await getFilteringFields();
 
-    const filteringValues = getFilteringValues(filteringFields.result);
-    for await (const fieldAndValues of filteringValues) {
+    for await (const fieldAndValues of getFilteringValues(filteringFields.result)) {
         filters[fieldAndValues[0]] = fieldAndValues[1];
     }
 

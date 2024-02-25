@@ -28,8 +28,7 @@ export const Products = () => {
     }, [pageNumber]);
 
     return (
-        <div className={styles['products-container']}>
-            <Filter className={styles.filter} />
+        <>
             {productsList 
             ?<>
                 <ul>
@@ -38,6 +37,6 @@ export const Products = () => {
                 <ControlBar className={styles['control-bar']} showNextPage={showNextPage} showPreviousPage={showPreviousPage} pageNumber={pageNumber} isLastPage={productsList.isLastPage} />
             </>
             :<Loading />}
-        </div>
+        </>
     )
 }

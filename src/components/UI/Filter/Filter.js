@@ -5,16 +5,7 @@ import { getFilters } from './getFilters';
 import styles from './Filter.module.css';
 import cn from 'classnames';
 
-export const Filter = ({className}) => {
-    const [filters, setFilters] = useState(null)
-
-    useEffect(() => {
-        async function getData() {
-            setFilters(await getFilters());
-        }
-        getData();
-    }, []);
-
+export const Filter = ({className, filters}) => {
     return (
         <Card className={cn(className, styles.card)}>
            {filters && <dl>

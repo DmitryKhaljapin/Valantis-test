@@ -20,7 +20,6 @@ async function getProductsList(productIds) {
     return requireToServer('get_items', {ids: productIds});
 }
 
-
 export async function getProducts(pageNumber) {
     const {productIds, isLastPage} = await getProductIds(pageNumber);
     
