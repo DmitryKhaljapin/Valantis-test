@@ -2,8 +2,9 @@ import React from 'react';
 import styles from './Button.module.css';
 import cn from 'classnames';
 
-export const Button = ({isDisabled, ...props}) => {
-    return (<button className={cn(styles.button, {
+export const Button = ({children, className, isDisabled, ...props}) => {
+    return (<button className={cn(styles.button, className, {
         [styles.disabled]: isDisabled,
-    })} {...props}></button>);
+        [styles.nav]: !children,
+    })} {...props}>{children && children}</button>);
 }

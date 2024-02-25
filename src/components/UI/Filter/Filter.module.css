@@ -2,3 +2,16 @@
     max-width: 278px;
     height: fit-content;
 }
+
+.filter-item {
+    margin-bottom: 25px;
+}
+
+.field {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.reset-button {
+    margin-top: 10px;
+}

@@ -5,10 +5,10 @@ import { Loading } from '../Loading/Loading';
 import { ControlBar } from '../UI/ControlBar/ControlBar';
 import styles from './Products.module.css';
 
-export const Products = ({selectedFilter}) => {
-    console.log(selectedFilter);
+export const Products = ({selectedFilter, pageNumber, setPageNumber}) => {
+
     const [productsList, setProductsList] = useState(null)
-    const [pageNumber, setPageNumber] = useState(1);
+
 
     function showNextPage() {
         setPageNumber(prevState => prevState + 1);
@@ -28,7 +28,7 @@ export const Products = ({selectedFilter}) => {
     }, [pageNumber, selectedFilter]);
 
     return (
-        <>
+        <div>
             {productsList 
             ?<>
                 <ul>
@@ -37,6 +37,6 @@ export const Products = ({selectedFilter}) => {
                 <ControlBar className={styles['control-bar']} showNextPage={showNextPage} showPreviousPage={showPreviousPage} pageNumber={pageNumber} isLastPage={productsList.isLastPage} />
             </>
             :<Loading />}
-        </>
+        </div>
     )
 }

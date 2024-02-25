@@ -6,11 +6,12 @@ import styles from './ProductsPage.module.css';
 export const ProductsPage = ({filters}) => {
 
     const [selectedFilter, setSelectedFilter] = useState('');
+    const [pageNumber, setPageNumber] = useState(1);
 
     return (
         <div className={styles.wrapper}>
-            <Filter selectFilter={setSelectedFilter} selectedFilter={selectedFilter} filters={filters} />
-            <Products selectedFilter={selectedFilter} />    
+            <Filter setSelectedFilter={setSelectedFilter} setPageNumber={setPageNumber} selectedFilter={selectedFilter} filters={filters} />
+            <Products selectedFilter={selectedFilter} pageNumber={pageNumber} setPageNumber={setPageNumber} />    
         </div>
     )
 }

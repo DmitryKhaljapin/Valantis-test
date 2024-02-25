@@ -99,7 +99,7 @@ export async function getFilteredProducts(selectedFilter, pageNumber) {
         list.push(product);
         return list;
     }, []);
-
+    
     return {
         uniqProductsList,
         isLastPage

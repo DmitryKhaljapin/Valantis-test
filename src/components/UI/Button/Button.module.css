@@ -1,13 +1,18 @@
 .button {
     padding: 10px 20px;
     background: #7B3524;
-    height: 40px;
+    min-height: 40px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 2px 0px;
     border-radius: 8px;
-    font-size: 2rem;
+    font-size: 1.5rem;
+    color: #fff;
 }
 
-.button::after, button::before {
+.button:not(.disabled):hover {
+    background: #57261a;
+}
+
+.nav::after, .nav::before {
     content: '';
     display: block;
     height: 1px;
@@ -17,17 +22,13 @@
     transform-origin: 0% 50%;
 }
 
-.button::before {
+.nav::before {
     transform: rotate(-45deg);
     transform-origin: 0% 50%;
 }
 
-.button:last-child {
+.nav:last-child {
     transform: rotate(180deg);
-}
-
-.button:hover {
-    background: #57261a;
 }
 
 .disabled {

@@ -1,32 +1,35 @@
 import React from 'react';
-import { sort } from '../../../helpers/sort';
+import { Button } from '../Button/Button'
 import { Card } from '../Card/Card';
+import { Select } from '../Select/Select';
 
 import styles from './Filter.module.css';
 import cn from 'classnames';
 
-export const Filter = ({className, selectFilter, selectedFilter, filters}) => {
+export const Filter = ({className, setSelectedFilter, setPageNumber, selectedFilter, filters}) => {
     
-    function onSelectHandler(event, field) {
-        selectFilter(event.target.value ? {field, value: event.target.value}: '')
+    function selectFilter(event, field) {
+        setPageNumber(1);
+        setSelectedFilter(event.target.value ? {field, value: event.target.value}: '');
     }
 
     return (
-        <Card className={cn(className, styles.card)}>
-           {filters && <dl>
-                {Object.entries(filters).map(([field, values]) =>  {
-                    return (
-                        <div key={field}>
-                            <dt>{field}</dt>
-                            <dd>
-                                <select onChange={event => onSelectHandler(event, field)} value={field == selectedFilter?.field ? selectedFilter.value : ''}>
-                                    {[<option key={0} value={null}>{''}</option>, ...sort(values).map(value => <option key={value} value={value || 'null'}>{value ? value : 'Отсутствует'}</option>)]}
-                                </select>
-                            </dd>
-                        </div>
-                    );
-                })}
-            </dl>}
-        </Card>
+        <>
+            {filters &&<Card className={cn(className, styles.card)}>
+                <dl>
+                    {Object.entries(filters).map(([field, values]) =>  {
+                        return (
+                            <div className={styles['filter-item']} key={field}>
+                                <dt className={styles.field}>{field + ':'}</dt>
+                                <dd>
+                                    <Select optionsContent={values} onChange={event => selectFilter(event, field)} value={field == selectedFilter?.field ? selectedFilter.value : ''}/>
+                                </dd>
+                            </div>
+                        );
+                    })}
+                </dl>
+                <Button onClick={selectFilter} className={styles['reset-button']}>{'Сбросить фильтр'}</Button>
+            </Card>}
+        </>
     );
 }
