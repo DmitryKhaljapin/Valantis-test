@@ -6,8 +6,8 @@ import { ControlBar } from '../UI/ControlBar/ControlBar';
 import { Filter } from '../UI/Filter/Filter';
 import styles from './Products.module.css';
 
-export const Products = () => {
-
+export const Products = ({selectedFilter}) => {
+    console.log(selectedFilter);
     const [productsList, setProductsList] = useState(null)
     const [pageNumber, setPageNumber] = useState(1);
 
