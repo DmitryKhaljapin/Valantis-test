@@ -15,7 +15,7 @@ export const Filter = ({className, filters}) => {
                             <dt>{field}</dt>
                             <dd>
                                 <select>
-                                    {sort(values).map(value => <option key={value} value={value}>{value}</option>)}
+                                    {[<option key={0} value={null}>{''}</option>, ...sort(values).map(value => <option key={value} value={value}>{value? value: 'Отсутствует'}</option>)]}
                                 </select>
                             </dd>
                         </div>

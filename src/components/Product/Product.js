@@ -16,7 +16,7 @@ export const Product = ({id, price, brand, product: title}) => {
                 <dd className={styles['prop-value']}>{id}</dd>
 
                 <dt className={styles['prop-name']}>Бренд:</dt>
-                <dd className={styles['prop-value']}>{brand}</dd>
+                <dd className={styles['prop-value']}>{brand? brand: 'Отсутствует'}</dd>
             </dl>
         </Card>
     );
