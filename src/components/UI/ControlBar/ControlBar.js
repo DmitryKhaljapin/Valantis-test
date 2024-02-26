@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '../Button/Button'
+import { Button } from '../'
 import styles from './ControlBar.module.css';
 import cn from 'classnames';
 

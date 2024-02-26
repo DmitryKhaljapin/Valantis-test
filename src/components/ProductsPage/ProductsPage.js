@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Products } from '../Products/Products';
-import { Filter } from '../UI/Filter/Filter';
+import { Filter } from '../UI';
 import styles from './ProductsPage.module.css';
 
 export const ProductsPage = ({filters}) => {
