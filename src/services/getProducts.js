@@ -1,9 +1,8 @@
-import { requireToServer } from '../../helpers/requireToServer';
+import { requireToServer } from '../utils/requireToServer';
+import { storedFilteredProductIds } from '../data/storedFilteredProductIds';
 
 let correctionOffset = 0; // in case of products count less then 50 after uqicialize
 let correctionLimit = 0; // in case of products count less then 50 after uqicialize
-
-let storedFilteredProductIds = null; // storing product's IDs in case of their count more then 50 to avoid sending request to server again
 
 async function getProductIds(pageNumber) {
     let offset = (pageNumber - 1) * 50 + correctionOffset;
@@ -23,7 +22,7 @@ async function getFilteredProductIds(selectedFilter) {
 
     const filteredProductIds = await requireToServer('filter', params);
 
-    if (filteredProductIds.result.length > 50) {
+    if (filteredProductIds.result.length > 50) { //  in case of product's IDs count is more then 50 store product's IDs to avoid sending request to server again
         storedFilteredProductIds = {filteredProductIds: filteredProductIds.result, selectedFilter};
         return  {
             filteredProductIds: filteredProductIds.result.slice(0, 50),

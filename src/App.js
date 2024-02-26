@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ProductsPage } from './components/ProductsPage/ProductsPage';
-import { getFilters } from './components/UI/Filter/getFilters';
+import { getFilters } from './services/getFilters';
 
 export const App = () => {
     const [filters, setFilters] = useState(null)

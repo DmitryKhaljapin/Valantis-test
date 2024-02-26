@@ -1,4 +1,4 @@
-import { requireToServer } from '../../../helpers/requireToServer';
+import { requireToServer } from '../utils/requireToServer';
 
 async function getFilteringFields() {
     return requireToServer('get_fields');

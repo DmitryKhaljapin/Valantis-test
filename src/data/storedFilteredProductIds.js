@@ -1,0 +1,1 @@
+export let storedFilteredProductIds = null; // storing product's IDs in case of their count is more then 50 to avoid sending request to server again

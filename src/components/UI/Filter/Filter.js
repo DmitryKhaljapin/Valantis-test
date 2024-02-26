@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '../Button/Button'
 import { Card } from '../Card/Card';
 import { Select } from '../Select/Select';
-import { translate } from '../../../helpers/translate'
+import { translate } from '../../../utils/translate'
 
 import styles from './Filter.module.css';
 import cn from 'classnames';

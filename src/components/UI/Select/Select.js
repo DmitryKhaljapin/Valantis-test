@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Select.module.css';
-import { sort } from '../../../helpers/sort';
+import { sort } from '../../../utils/sort';
 
 export const Select = ({optionsContent, ...props}) => {
     return (
