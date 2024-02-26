@@ -28,3 +28,14 @@
 .prop-value {
     grid-column: 2 / 4
 }
+
+@media (width <= 425px ) {
+    .info-list {
+        grid-template-columns: auto 1fr ;
+    }
+
+    .price {
+        grid-column: 1 / 2;
+        grid-row: 5 / 6 ;
+    }
+}
