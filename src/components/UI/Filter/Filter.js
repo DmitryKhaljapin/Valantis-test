@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Card, Select } from '../'
-import { translate } from '../../../utils/translate'
+import { translate } from '@/utils/translate'
 
 import styles from './Filter.module.css';
 import cn from 'classnames';

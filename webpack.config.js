@@ -10,6 +10,13 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
     },
 
+    resolve: {
+        alias: {
+           '@': path.resolve(__dirname, 'src'),
+           '@components': path.resolve(__dirname, 'src/components') 
+        }
+    },
+
     devServer: {
         port: 3000
     },

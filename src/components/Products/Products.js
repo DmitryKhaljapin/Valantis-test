@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Product } from '../Product/Product';
-import { getProducts, getFilteredProducts } from '../../services';
+import { getProducts, getFilteredProducts } from '@/services';
 import { Loading } from '../Loading/Loading';
 import { ControlBar } from '../UI';
 import styles from './Products.module.css';
